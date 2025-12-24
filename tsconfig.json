@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "es2022",
     "module": "es2022",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "moduleResolution": "Bundler",
     "strict": true,
     "verbatimModuleSyntax": true,

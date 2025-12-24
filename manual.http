@@ -1,0 +1,10 @@
+@url = http://localhost:3000
+
+### TEST VALIDATOR
+POST {{url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ini email",
+  "password": "ini password"
+}
