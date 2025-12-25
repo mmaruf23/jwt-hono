@@ -10,9 +10,6 @@ describe('Test', () => {
   });
 
   it('get env', async () => {
-    const env: EnvSchema = {
-      NODE_ENV: 'test',
-    };
     const res = await app.request('/env', { method: 'GET' });
     expect(res.ok).toBeTruthy();
     console.log('RESPONSE : ', await res.json());

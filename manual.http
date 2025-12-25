@@ -1,4 +1,9 @@
 @url = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY2ODI5ODV9.3BasIdd82QVyWD37hRTb8039Y5XNEoAvplcVwZgIMpI
+
+### SIMPLE RUN
+GET {{url}}
+Authorization: Bearer validtoken
 
 ### TEST VALIDATOR
 POST {{url}}/auth/login
@@ -8,6 +13,10 @@ Content-Type: application/json
   "email": "admin@example.com",
   "password": "inisangatrahasia"
 }
+
+### TEST JWT MIDDLEWARE
+GET {{url}}/auth/status
+Authorization: Bearer token
 
 ### GET ENV
 GET {{url}}/env 

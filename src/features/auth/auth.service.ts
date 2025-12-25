@@ -1,5 +1,6 @@
 import { db } from '@/config/db';
 import { users } from '@/config/db/schema/users';
+import { envNode } from '@/config/env';
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { sign } from 'hono/jwt';
@@ -23,6 +24,6 @@ export const login = async (
       sub: user.id,
       exp: Math.floor(Date.now() / 1000) + 60 * 10,
     },
-    'inisangatrahasia'
+    envNode.JWT_SECRET
   );
 };
