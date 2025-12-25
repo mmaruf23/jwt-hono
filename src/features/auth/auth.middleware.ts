@@ -12,5 +12,5 @@ export const validLoginRequest = createMiddleware(async (c, next) => {
 
   if (!parse.success)
     return c.json({ message: JSON.parse(parse.error.message)[0] }, 400);
-  next();
+  await next();
 });
