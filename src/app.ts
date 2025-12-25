@@ -6,7 +6,6 @@ import type { EnvSchema } from './config/env';
 
 const app = new Hono<{ Variables: { env: EnvSchema } }>();
 
-app.use(logger());
 app.use('*', envMiddleware);
 
 app.get('/', (c) => {

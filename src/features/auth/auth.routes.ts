@@ -8,7 +8,6 @@ export const authRoutes = new Hono();
 
 authRoutes.post('/login', validLoginRequest, async (c) => {
   const { email, password } = (await c.req.json()) as loginRequest;
-  console.log({ email, password });
   const token = await login(email, password);
   return c.json({ token });
 });

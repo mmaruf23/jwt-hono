@@ -1,13 +1,12 @@
 import app from '@/app';
 import type { EnvSchema } from '@/config/env';
-import { equal, ok } from 'node:assert';
-import { describe, it } from 'node:test';
+import { describe, expect, it } from 'vitest';
 
 describe('Test', () => {
   it('just should run', async () => {
     const res = await app.request('/', { method: 'GET' });
-    equal(res.status, 200);
-    equal(await res.text(), 'Hello Hono!');
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe('Hello Hono!');
   });
 
   it('get env', async () => {
@@ -15,7 +14,7 @@ describe('Test', () => {
       NODE_ENV: 'test',
     };
     const res = await app.request('/env', { method: 'GET' });
-    ok(res.ok);
+    expect(res.ok).toBeTruthy();
     console.log('RESPONSE : ', await res.json());
   });
 });
