@@ -1,6 +1,5 @@
 import app from '@/app';
 import { describe, expect, it } from 'vitest';
-import { email } from 'zod';
 
 describe('Test login', () => {
   it('should success login', async () => {

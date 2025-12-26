@@ -1,21 +1,35 @@
 import { Hono } from 'hono';
 import { authRoutes } from '@/features/auth/auth.handler';
-import { envNode, type EnvSchema } from '@/config/env';
+import { HTTPException } from 'hono/http-exception';
+import { isJwtCause } from '@/utils/jwt';
+import type { ApiResponse } from '@/types/response.type';
 
-const app = new Hono<{ Variables: { env: EnvSchema } }>();
+const app = new Hono();
 
 app.get('/', (c) => {
   return c.text('Hello Hono!');
 });
 
-app.get('/env', (c) => {
-  return c.json(envNode, 200);
-});
-
 app.route('/auth', authRoutes);
 
 app.onError((err, c) => {
-  return c.json({ error: err.message }, 500);
+  if (!(err instanceof HTTPException))
+    return c.text('INTERNAL SERVER ERROR', 500);
+
+  const isJwtInvalid =
+    isJwtCause(err.cause) &&
+    (err.cause.name === 'JwtTokenExpired' ||
+      err.cause.name === 'JwtTokenInvalid');
+
+  if (!isJwtInvalid) return err.getResponse();
+
+  const response: ApiResponse = {
+    success: false,
+    code: err.status,
+    message: 'Invalid token / expired',
+  };
+
+  return c.json(response, err.status);
 });
 
 export default app;

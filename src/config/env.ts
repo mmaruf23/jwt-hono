@@ -1,10 +1,10 @@
-import { z } from 'zod';
 import 'dotenv/config';
+import z from 'zod';
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']),
-  JWT_SECRET: z.string().min(1),
+  JWT_ACCESS_SECRET: z.string().min(1),
+  JWT_REFRESH_SECRET: z.string().min(1),
 });
 
-export const envNode = envSchema.parse(process.env);
-export type EnvSchema = z.infer<typeof envSchema>;
+export const env = envSchema.parse(process.env);

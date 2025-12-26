@@ -1,5 +1,6 @@
 @url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY2ODI5ODV9.3BasIdd82QVyWD37hRTb8039Y5XNEoAvplcVwZgIMpI
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY3NjU2NDJ9.8B956cJVIBtj22pbpBPahsE9kY2oqzFd73h7HmIJ2eM
+@expiredtoken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY2ODI5ODV9.3BasIdd82QVyWD37hRTb8039Y5XNEoAvplcVwZgIMpI
 
 ### SIMPLE RUN
 GET {{url}}
@@ -16,7 +17,11 @@ Content-Type: application/json
 
 ### TEST JWT MIDDLEWARE
 GET {{url}}/auth/status
-Authorization: Bearer token
+Authorization: Bearer {{token}}
+
+### TEST JWT MIDDLEWARE EXPIRED
+GET {{url}}/auth/status
+Authorization: Bearer {{expiredtoken}}
 
 ### GET ENV
 GET {{url}}/env 

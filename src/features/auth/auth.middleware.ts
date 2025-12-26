@@ -1,10 +1,9 @@
 import type { MiddlewareHandler } from 'hono';
-import { jwt } from 'hono/jwt';
-import { object, string, email } from 'zod';
+import z from 'zod';
 
-const loginRequestSchema = object({
-  email: email(),
-  password: string(),
+const loginRequestSchema = z.object({
+  email: z.email(),
+  password: z.string(),
 });
 
 export const validateLoginRequest: MiddlewareHandler = async (c, next) => {
@@ -13,5 +12,7 @@ export const validateLoginRequest: MiddlewareHandler = async (c, next) => {
 
   if (!parse.success)
     return c.json({ message: JSON.parse(parse.error.message)[0] }, 400);
+
+  c.set('loginRequest', parse.data);
   await next();
 };

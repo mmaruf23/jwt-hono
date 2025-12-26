@@ -1,5 +1,6 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { users } from './users';
+import type { InferSelectModel } from 'drizzle-orm';
 
 export const refreshTokens = sqliteTable('refresh_token', {
   id: text('id').primaryKey(),
@@ -13,3 +14,5 @@ export const refreshTokens = sqliteTable('refresh_token', {
     .notNull()
     .defaultNow(),
 });
+
+export type RefreshToken = InferSelectModel<typeof refreshTokens>;
