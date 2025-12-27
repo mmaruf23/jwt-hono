@@ -1,9 +1,16 @@
 import { Hono } from 'hono';
-import { issueAccessToken, issueRefreshToken, login } from './auth.service';
-import { validateLoginRequest } from './auth.middleware';
+import {
+  issueAccessToken,
+  issueRefreshToken,
+  login,
+  refresh,
+  rotateRefreshToken,
+} from './auth.service';
+import { validateLoginRequest, validateRefreshToken } from './auth.middleware';
 import { jwt } from 'hono/jwt';
 import { env } from '@/config/env';
-import { getCookie, setCookie } from 'hono/cookie';
+import { setCookie } from 'hono/cookie';
+import type { ApiResponse } from '@/types/response.type';
 
 export const authRoutes = new Hono();
 
@@ -16,16 +23,28 @@ authRoutes.post('/login', validateLoginRequest, async (c) => {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    path: '/auth/refresh', // todo : bikin endpoint nya
-    maxAge: 60 * 60 * 24 * 30, // detik
+    path: '/auth/refresh',
+    maxAge: 60 * 60 * 24 * 30,
   });
   return c.json({ token, user });
 });
 
-authRoutes.post('/refresh', async (c) => {
-  const token = getCookie(c, 'refresh_token');
-  return c.text('belom kelar hehe. nih token lama kau' + token, 200);
-  // todo : lanjut disini
+authRoutes.post('/refresh', validateRefreshToken, async (c) => {
+  const payload = c.get('payloadRefreshToken');
+  const refreshToken = await refresh(payload);
+  const token = await rotateRefreshToken(refreshToken);
+  setCookie(c, 'refresh_token', token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    path: '/auth/refresh',
+    maxAge: 60 * 60 * 24 * 30,
+  });
+  return c.json({
+    success: true,
+    code: 200,
+    data: 'lihat cookienya apakah berubah?',
+  });
 });
 
 authRoutes.get('/status', jwt({ secret: env.JWT_ACCESS_SECRET }), async (c) => {

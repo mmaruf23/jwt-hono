@@ -16,17 +16,10 @@ app.onError((err, c) => {
   if (!(err instanceof HTTPException))
     return c.text('INTERNAL SERVER ERROR', 500);
 
-  const isJwtInvalid =
-    isJwtCause(err.cause) &&
-    (err.cause.name === 'JwtTokenExpired' ||
-      err.cause.name === 'JwtTokenInvalid');
-
-  if (!isJwtInvalid) return err.getResponse();
-
   const response: ApiResponse = {
     success: false,
     code: err.status,
-    message: 'Invalid token / expired',
+    message: err.message,
   };
 
   return c.json(response, err.status);

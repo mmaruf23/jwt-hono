@@ -1,6 +1,8 @@
 @url = http://localhost:3000
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY3NjU2NDJ9.8B956cJVIBtj22pbpBPahsE9kY2oqzFd73h7HmIJ2eM
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY4NTM0MzJ9.lrOhcIx_v8mCz6Fk-6YQx6XfQYNZKigaOrOv13Js1tY
 @expiredtoken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJleHAiOjE3NjY2ODI5ODV9.3BasIdd82QVyWD37hRTb8039Y5XNEoAvplcVwZgIMpI
+
+@refresh_token = refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YjUyNGYxOS0yZWY1LTQ5NWEtOWNkYy1kNzQ0OTZjYjViOWYiLCJqdGkiOiJlMWIyMzAyZC0yZWY4LTQ4YjEtYjI0NS1lMWVhYjdlYjcwZjYiLCJleHAiOjE3Njk0NDQ4MzJ9.GH_Yqx56fQyPkFsPDTSWKgLONZ2pl9Qxs4J9yKmmhgI
 
 ### SIMPLE RUN
 GET {{url}}
@@ -23,5 +25,6 @@ Authorization: Bearer {{token}}
 GET {{url}}/auth/status
 Authorization: Bearer {{expiredtoken}}
 
-### GET ENV
-GET {{url}}/env 
+### TEST REFRESH TOKEN
+POST {{url}}/auth/refresh
+Cookie: {{refresh_token}}
