@@ -43,10 +43,11 @@ export const refresh = async (payload: JwtPayloadRefreshToken) => {
     .where(eq(refreshTokens.id, payload.jti))
     .get();
 
+  // todo : ganti message exception ke "Unauthorize" semua, detailnya cukup munculkan di console
   if (!refreshToken) throw NewInvalidTokenError();
   if (refreshToken.replacedBy) throw NewReplacedTokenError(); // todo : revoke semua refresh token dengan id yang sama.
   if (refreshToken.revokedAt) throw NewRevokedTokenError();
-  if (refreshToken.expiresAt < new Date()) throw NewExpiredTokenError();
+  if (refreshToken.expiresAt < new Date()) throw NewExpiredTokenError(); // just in case
 
   return refreshToken;
 };
@@ -57,7 +58,7 @@ export const issueAccessToken = async (sub: string): Promise<string> => {
 };
 
 export const issueRefreshToken = async (sub: string) => {
-  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+  const expiresAt = new Date(Date.now() + 60 * 60 * 24 * 30);
 
   const refreshTokenId = randomUUID();
   const payload: JwtPayloadRefreshToken = {
@@ -77,7 +78,7 @@ export const issueRefreshToken = async (sub: string) => {
 };
 
 export const rotateRefreshToken = async (refreshTokenOld: RefreshToken) => {
-  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30);
+  const expiresAt = new Date(Date.now() + 60 * 60 * 24 * 30);
 
   const newJti = randomUUID();
   const payload: JwtPayloadRefreshToken = {
@@ -99,7 +100,7 @@ export const rotateRefreshToken = async (refreshTokenOld: RefreshToken) => {
     await tx.insert(refreshTokens).values({
       id: newJti,
       userId: refreshTokenOld.userId,
-      expiresAt,
+      expiresAt: expiresAt,
     });
   });
 

@@ -1,6 +1,13 @@
 import type { JWTPayload } from 'hono/utils/jwt/types';
 
-export type JwtPayloadRefreshToken = JWTPayload & {
+export type JwtPayloadAccessToken = JWTPayload & {
   sub: string;
+};
+
+export type JwtPayloadRefreshToken = JwtPayloadAccessToken & {
   jti: string;
+};
+
+export type UpdateProfileRequest = {
+  name: string;
 };

@@ -9,7 +9,7 @@ export const users = sqliteTable('users', {
 
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
-    .defaultNow(),
+    .$defaultFn(() => new Date()),
 });
 
 export type User = InferSelectModel<typeof users>;

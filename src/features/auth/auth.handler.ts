@@ -11,6 +11,7 @@ import { jwt } from 'hono/jwt';
 import { env } from '@/config/env';
 import { setCookie } from 'hono/cookie';
 import type { ApiResponse } from '@/types/response.type';
+import type { JwtPayloadRefreshToken } from '@/types/payload.type';
 
 export const authRoutes = new Hono();
 
@@ -26,26 +27,41 @@ authRoutes.post('/login', validateLoginRequest, async (c) => {
     path: '/auth/refresh',
     maxAge: 60 * 60 * 24 * 30,
   });
-  return c.json({ token, user });
-});
 
-authRoutes.post('/refresh', validateRefreshToken, async (c) => {
-  const payload = c.get('payloadRefreshToken');
-  const refreshToken = await refresh(payload);
-  const token = await rotateRefreshToken(refreshToken);
-  setCookie(c, 'refresh_token', token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-    path: '/auth/refresh',
-    maxAge: 60 * 60 * 24 * 30,
-  });
-  return c.json({
+  const response: ApiResponse = {
     success: true,
     code: 200,
-    data: 'lihat cookienya apakah berubah?',
-  });
+    data: { token, user },
+  };
+  return c.json(response, response.code);
 });
+
+authRoutes.post(
+  '/refresh',
+  jwt({
+    secret: env.JWT_REFRESH_SECRET,
+    cookie: 'refresh_token',
+  }),
+  async (c) => {
+    const payload = c.get('jwtPayload') as JwtPayloadRefreshToken;
+    const refreshToken = await refresh(payload);
+    const newRefreshToken = await rotateRefreshToken(refreshToken);
+    setCookie(c, 'refresh_token', newRefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/auth/refresh',
+      maxAge: 60 * 60 * 24 * 30,
+    });
+
+    const token = await issueAccessToken(payload.sub);
+    return c.json({
+      success: true,
+      code: 200,
+      data: { token },
+    });
+  }
+);
 
 authRoutes.get('/status', jwt({ secret: env.JWT_ACCESS_SECRET }), async (c) => {
   const res = c.get('jwtPayload');

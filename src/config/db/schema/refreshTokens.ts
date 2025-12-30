@@ -12,7 +12,7 @@ export const refreshTokens = sqliteTable('refresh_token', {
   replacedBy: text('replaced_by'),
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
-    .defaultNow(),
+    .$defaultFn(() => new Date()),
 });
 
 export type RefreshToken = InferSelectModel<typeof refreshTokens>;

@@ -1,3 +1,4 @@
+// note : exception-exception ini database level, diluar verify jwt.
 import { HTTPException } from 'hono/http-exception';
 
 export const NewCredentialError = () => {
@@ -12,6 +13,7 @@ export const NewInvalidTokenError = () => {
   });
 };
 
+// just in case
 export const NewExpiredTokenError = () => {
   return new HTTPException(400, {
     message: 'Token expired',

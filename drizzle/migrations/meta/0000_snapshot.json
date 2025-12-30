@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "434782d1-3a54-4d8b-ab50-439d47691aa0",
+  "id": "85920513-e38b-40c2-a6a2-11662e4758ce",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "refresh_token": {
@@ -47,8 +47,7 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(cast((julianday('now') - 2440587.5)*86400000 as integer))"
+          "autoincrement": false
         }
       },
       "indexes": {},
@@ -107,8 +106,7 @@
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": "(cast((julianday('now') - 2440587.5)*86400000 as integer))"
+          "autoincrement": false
         }
       },
       "indexes": {

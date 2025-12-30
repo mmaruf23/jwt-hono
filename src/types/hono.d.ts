@@ -1,6 +1,7 @@
 import 'hono';
 import type { StatusCode } from 'hono/utils/http-status';
-import type { JwtPayloadRefreshToken } from './payload.type';
+import type { JWTPayload } from 'hono/utils/jwt/types';
+import type { UpdateProfileRequest } from './payload.type';
 
 declare module 'hono' {
   interface ContextVariableMap {
@@ -8,6 +9,7 @@ declare module 'hono' {
       email: string;
       password: string;
     };
-    payloadRefreshToken: JwtPayloadRefreshToken;
+    jwtPayload: JWTPayload;
+    updateProfileRequest: UpdateProfileRequest;
   }
 }
