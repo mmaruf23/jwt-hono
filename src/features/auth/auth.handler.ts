@@ -6,7 +6,7 @@ import {
   refresh,
   rotateRefreshToken,
 } from './auth.service';
-import { validateLoginRequest, validateRefreshToken } from './auth.middleware';
+import { validateLoginRequest } from './auth.middleware';
 import { jwt } from 'hono/jwt';
 import { env } from '@/config/env';
 import { setCookie } from 'hono/cookie';

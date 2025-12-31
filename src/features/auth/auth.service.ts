@@ -43,7 +43,6 @@ export const refresh = async (payload: JwtPayloadRefreshToken) => {
     .where(eq(refreshTokens.id, payload.jti))
     .get();
 
-  // todo : ganti message exception ke "Unauthorize" semua, detailnya cukup munculkan di console
   if (!refreshToken) throw NewInvalidTokenError();
   if (refreshToken.replacedBy) throw NewReplacedTokenError(); // todo : revoke semua refresh token dengan id yang sama.
   if (refreshToken.revokedAt) throw NewRevokedTokenError();
