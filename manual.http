@@ -4,10 +4,6 @@
 
 @refresh_token = refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDY0NTQ1Yi02OWI1LTQ5MzUtYWQzOS04MDUzNzYwYTNlNmQiLCJqdGkiOiI3NDVmOTMyOS1mZDk1LTQ2YjYtYmE2OC0xNWM5YWUwNWE0OWEiLCJleHAiOjE3NjcxMDg5NTZ9.1NMc2rDX_rD1QLqXLttZJvq53UAHNDb0UwxaCgJIvTA
 
-### SIMPLE RUN
-GET {{url}}
-Authorization: Bearer validtoken
-
 ### TEST LOGIN SUKSES
 POST {{url}}/auth/login
 Content-Type: application/json

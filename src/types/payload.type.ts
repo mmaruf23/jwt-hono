@@ -7,7 +7,3 @@ export type JwtPayloadAccessToken = JWTPayload & {
 export type JwtPayloadRefreshToken = JwtPayloadAccessToken & {
   jti: string;
 };
-
-export type UpdateProfileRequest = {
-  name: string;
-};

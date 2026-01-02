@@ -1,9 +1,5 @@
-import { env } from '@/config/env';
-import type { JwtPayloadRefreshToken } from '@/types/payload.type';
-import type { MiddlewareHandler } from 'hono';
-import { getCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
-import { verify } from 'hono/jwt';
+import { validator } from 'hono/validator';
 import z from 'zod';
 
 const loginRequestSchema = z.object({
@@ -11,14 +7,13 @@ const loginRequestSchema = z.object({
   password: z.string(),
 });
 
-export const validateLoginRequest: MiddlewareHandler = async (c, next) => {
-  const req = await c.req.json();
-  const parse = loginRequestSchema.safeParse(req);
+export const loginRequestValidator = validator('json', (value) => {
+  const parse = loginRequestSchema.safeParse(value);
 
   if (!parse.success)
     throw new HTTPException(400, {
       message: JSON.parse(parse.error.message)[0] || 'Invalid request',
     });
-  c.set('loginRequest', parse.data);
-  await next();
-};
+
+  return parse.data;
+});
